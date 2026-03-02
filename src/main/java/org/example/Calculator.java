@@ -5,10 +5,7 @@ import java.util.List;
 public class Calculator {
 
     static void main(String[] args) {
-        double[] results = calculateQuadratic(1, 2, 3);
-        System.out.println(results[0] + ", "  + results[1]);
-
-
+        System.out.println("Application started!");
     }
 
     // Calculates the quadratic formula given a b and c.
