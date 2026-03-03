@@ -2,8 +2,7 @@ package org.example;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 public class CalculatorTest {
 
@@ -44,5 +43,10 @@ public class CalculatorTest {
         double[] results = Calculator.calculateQuadratic(1, 2, 3);
 
         assertTrue(Double.isNaN(results[0]) && Double.isNaN(results[1]));
+    }
+
+    @Test
+    public void incorrectTest() {
+        fail();
     }
 }
