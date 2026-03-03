@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t midterm-project:${BUILD_NUMBER} .'
+                bat 'docker build -t midterm-project .'
             }
         }
     }
