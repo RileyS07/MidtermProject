@@ -4,8 +4,17 @@ import java.util.List;
 
 public class Calculator {
 
+    /*
+        Code development (IntelliJ IDEA)
+        Version control (GitHub)
+        Build automation (Maven)
+        Unit testing (JUnit)
+        Release automation / CI / CD (Jenkins)
+        Application deployment (Docker)
+     */
+
     static void main(String[] args) {
-        System.out.println("Application started!");
+        System.out.println("Application has started now and has successfully ran the unit tests!");
     }
 
     // Calculates the quadratic formula given a b and c.
