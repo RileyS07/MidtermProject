@@ -1,17 +1,20 @@
 # syntax=docker/dockerfile:1
 
 # --- Stage 1: Resolve and download dependencies ---
-FROM eclipse-temurin:21-jdk-jammy AS deps
+FROM eclipse-temurin:25-jdk-jammy AS deps
 
 WORKDIR /build
 
-# Copy the wrapper and configuration first
-COPY mvnw .
-COPY .mvn/ .mvn/
-# Ensure it's executable (Fixes the 127 error)
-RUN chmod +x mvnw
+# Install 'dos2unix' to fix line endings if you're on Windows
+RUN apt-get update && apt-get install -y dos2unix && rm -rf /var/lib/apt/lists/*
 
-# Bind the pom.xml to download dependencies without keeping the file in the layer
+# Copy the wrapper and configuration
+COPY mvnw ./mvnw
+COPY .mvn/ .mvn/
+
+# Fix line endings and permissions
+RUN dos2unix mvnw && chmod +x mvnw
+
 RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
     ./mvnw dependency:go-offline -DskipTests
