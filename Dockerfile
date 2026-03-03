@@ -33,7 +33,7 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
 # --- Stage 3: Final runtime image ---
-FROM eclipse-temurin:21-jre-jammy AS final
+FROM eclipse-temurin:25-jre-jammy AS final
 
 # Standard security: run as a non-privileged user
 ARG UID=10001
