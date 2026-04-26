@@ -1,17 +1,74 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE = "calculator-app:${BUILD_NUMBER}"
+    }
+
     stages {
-        stage('Build and Test') {
+
+        stage('Build + Unit Test') {
             steps {
-                bat 'mvn clean package'
+                bat 'mvn clean test package'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t midterm-project .'
+                bat 'docker build -t %IMAGE% .'
             }
+        }
+
+        stage('Deploy Staging') {
+            steps {
+                bat '''
+                docker rm -f calc-staging || exit 0
+                docker run --name calc-staging %IMAGE%
+                '''
+            }
+        }
+
+        stage('Show Staging Logs') {
+            steps {
+                bat 'docker logs calc-staging'
+            }
+        }
+
+        stage('Approve Production') {
+            steps {
+                input 'Deploy to production?'
+            }
+        }
+
+        stage('Backup Old Production') {
+            steps {
+                bat 'docker tag calculator-app:latest calculator-app:previous'
+            }
+        }
+
+        stage('Deploy Production') {
+            steps {
+                bat '''
+                docker rm -f calc-prod || exit 0
+                docker tag %IMAGE% calculator-app:latest
+                docker run --name calc-prod calculator-app:latest
+                '''
+            }
+        }
+
+        stage('Show Production Logs') {
+            steps {
+                bat 'docker logs calc-prod'
+            }
+        }
+    }
+
+    post {
+        failure {
+            bat '''
+            docker rm -f calc-prod || exit 0
+            docker run --name calc-prod calculator-app:previous
+            '''
         }
     }
 }

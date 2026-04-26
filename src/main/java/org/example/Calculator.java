@@ -29,6 +29,6 @@ public class Calculator {
     }
 
     public static void anotherMethod() {
-        
+        System.out.println("Yes.");
     }
 }
