@@ -15,7 +15,7 @@ public class Calculator {
 
     static void main(String[] args) {
         System.out.println("Application has started now and has successfully ran the unit tests!");
-    }
+    } 
 
     // Calculates the quadratic formula given a b and c.
     public static double[] calculateQuadratic(double a, double b, double c) {
