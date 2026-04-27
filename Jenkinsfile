@@ -34,6 +34,12 @@ pipeline {
             }
         }
 
+        stage('Validate Staging') {
+            steps {
+                bat 'docker ps | findstr calc-staging'
+            }
+        }
+
         stage('Backup Old Production') {
             steps {
                 bat '''
