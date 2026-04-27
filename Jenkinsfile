@@ -34,12 +34,6 @@ pipeline {
             }
         }
 
-        stage('Approve Production') {
-            steps {
-                input 'Deploy to production?'
-            }
-        }
-
         stage('Backup Old Production') {
             steps {
                 bat 'docker tag calculator-app:latest calculator-app:previous'
