@@ -7,9 +7,9 @@ pipeline {
 
     stages {
 
-        stage('Build + Unit Test') {
+        stage('Build') {
             steps {
-                bat 'mvn clean test package'
+                bat 'mvn clean package'
             }
         }
 
@@ -31,6 +31,12 @@ pipeline {
         stage('Show Staging Logs') {
             steps {
                 bat 'docker logs calc-staging'
+            }
+        }
+
+        stage('Unit Testing') {
+            steps {
+                bat 'mvn clean test'
             }
         }
 
