@@ -36,7 +36,9 @@ pipeline {
 
         stage('Backup Old Production') {
             steps {
-                bat 'docker tag calculator-app:latest calculator-app:previous'
+                bat '''
+                docker image inspect calculator-app:latest >nul 2>&1 && docker tag calculator-app:latest calculator-app:previous || exit 0
+                '''
             }
         }
 
@@ -61,7 +63,7 @@ pipeline {
         failure {
             bat '''
             docker rm -f calc-prod || exit 0
-            docker run --name calc-prod calculator-app:previous
+            docker image inspect calculator-app:previous >nul 2>&1 && docker run --name calc-prod calculator-app:previous || exit 0
             '''
         }
     }
